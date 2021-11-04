@@ -1,6 +1,6 @@
 # WriteUp-Agrihack-2020
 
-## Binary Exploitation
+# Binary Exploitation
 ## FLOW 1 (100 Pts)
 
 Diberikan sebuah source code:
@@ -64,7 +64,7 @@ agrihack{Toooooooooo_much_character_is_dangerous_LINZ_IS_HERE}
 
 **flag: agrihack{Toooooooooo_much_character_is_dangerous_LINZ_IS_HERE}**
 
-## Cryptography
+# Cryptography
 
 ## Basic64 (100 pts)
 Diberikan file enc.txt dan dilihat isinya:
