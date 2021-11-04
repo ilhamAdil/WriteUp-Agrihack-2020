@@ -1,7 +1,7 @@
 # WriteUp-Agrihack-2020
 
 # Binary Exploitation
-## FLOW 1 (100 Pts)
+## 1. FLOW 1 (100 Pts)
 
 Diberikan sebuah source code:
 ```
@@ -68,7 +68,7 @@ agrihack{Toooooooooo_much_character_is_dangerous_LINZ_IS_HERE}
 
 # Cryptography
 
-## Basic64 (100 pts)
+## 1. Basic64 (100 pts)
 Diberikan file enc.txt dan dilihat isinya:
 
 ![image22](https://user-images.githubusercontent.com/66354919/140281216-b8237a0a-cfcb-4de1-8c99-9808ea6cd34b.png)
@@ -82,7 +82,7 @@ Out[5]: 'agrihack{basic_to_know_base64}'
 ```
 **sehingga flagnya: agrihack{basic_to_know_base64}**
 
-## Introduction to Cipher_Series : ROMAN (120 pts)
+## 2. Introduction to Cipher_Series : ROMAN (120 pts)
 Diberikan file caesar.png:
 
 ![image60](https://user-images.githubusercontent.com/66354919/140281378-d4b26a0b-1721-4c08-bfa6-8ab725a9da89.png)
@@ -93,7 +93,7 @@ Dilihat dari nama filenya, Isinya ciphertext yang kemungkinan caesarian cipher. 
 
 **Dapet flagnya: agrihack{Gaius_Julius_Caesar}**
 
-## Introduction to Cipher_Series : GiovanBattistaBellaso (120 pts)
+## 3. Introduction to Cipher_Series : GiovanBattistaBellaso (120 pts)
 
 Diberikan file enc.txt dan gambar seorang tokoh yang megang kunci dengan tambahan kata vibonacci. Hmmm… sepertinya kunci tersebut digunakan untuk mendecode ciphertext tersebut.
 
@@ -105,7 +105,7 @@ Setelah saya searching apa itu Giovan Battista Bellaso di sepuh google, ternyata
 
 **Dapetlah flagnya: agrihack{Vignere_Ch1p3r’s_H3r3}**
 
-## Introduction to Cipher_Series : Talking (120 pts)
+## 4. Introduction to Cipher_Series : Talking (120 pts)
 
 ![image36](https://user-images.githubusercontent.com/66354919/140282225-a8d47b50-768d-4e3d-a7af-1153211691bb.png)
 
@@ -139,7 +139,7 @@ Maka listnya menjadi seperti ini:
 Sehingga setelah saya coba decode manual hasil 
 **flagnya: agrihack{1t_just_alfh4b3t_r3pr3s3n74710n}**
 
-## BabyXOR (120 pts)
+## 5. BabyXOR (120 pts)
 Diberikan file key.txt dan enc.txt. Dilihat dari nama soalnya, cara decodenya kemungkinan menggunakan metode XOR. langsung ae kita buat python scriptnya:
 
 ```
@@ -167,7 +167,7 @@ Press return to continue
 ```
 **Flag: agrihack{you've_learn_about_xor_______let's_moving_on}**
 
-## Password Cracker (150 pts)
+## 6. Password Cracker (150 pts)
 
 Diberikan sebuah hash md5:
 “0f7c017187ad3c1d50a65015de71958c”
@@ -197,7 +197,7 @@ password : b33f
 
 **flag: agrihack{brut3f0rc3333_as_1t5_f1n33______b33f}**
 
-## Introduction to Cipher_Series : Matrix (150 pts)
+## 7. Introduction to Cipher_Series : Matrix (150 pts)
 
 Diberikan sebuah file gambar dengan extensi .jpg, setelah dilihat gambarnya:
 
@@ -217,7 +217,7 @@ a c k [ C
 
 **Dapatlah flagnya: agrihack{C0lumn4t_Tr4nsp051t100N}**
 
-## BabyAES : Introduction (175 pts)
+## 8. BabyAES : Introduction (175 pts)
 Diberikan file source.py dan enc.txt. Hmmmm… Setelah kita lihat codenya, mungkin kita harus mengeksekusi source code tersebut untuk mendecode file enc.txt.
 
 Namun, setelah dieksekusi, ternyata kita harus menginstall package pycryptodome. Langsung saja kita install packagenya:
@@ -271,7 +271,7 @@ Press return to continue
 ```
 **flag: agrihack{51mpl3_ECB_MODE_34b6a5}**
 
-## Password Cracker 2 (175 pts)
+## 9. Password Cracker 2 (175 pts)
 
 Lagi-lagi hash md5 yaitu “535fc078a3a273070809bfdbef6018bf” dan servis nc 52.187.65.2 15002. Langsung saja kita crack md5 di database online di https://crackstation.net/
 
@@ -295,7 +295,7 @@ password : sarahsue@gmail.com
 ```
 **flag: agrihack{d0n7_u53_w34k__p455w000000RD}**
 
-## BabyXor Vol.2 (200 pts)
+## 10. BabyXor Vol.2 (200 pts)
 Diberikan file enkrip.enc, dan tanpa key. Maka cara yang paling tepat adalah dengan menggunakan xortool.
 
 Sebelumnya kita install dulu package xortool dengan cara:
@@ -365,7 +365,7 @@ Press return to continue
 
 **flag: agrihack{common_character__is_space}**
 
-## Selamat Datang di RSA (300 pts)
+## 11. Selamat Datang di RSA (300 pts)
 Diberikan servis nc 52.187.65.2 15004. Langsung saja kita jalankan di terminal:
 
 ```
@@ -529,7 +529,7 @@ Press return to continue
 **flag: agrihack{youve_learn_basic_RSA}**
 
 # Forensics
-## Wheres Waldo? (100 pts)
+## 1. Wheres Waldo? (100 pts)
 Diberikan sebuah file wheres_waldo.png, dengan hint find strings
 
 ![image59](https://user-images.githubusercontent.com/66354919/140285146-3801f171-6bee-4607-addd-bb860b4a97d0.png)
@@ -553,7 +553,7 @@ agrihack{oh_h3r3_15_w4LDoo__776c64}
 ```
 **flag: agrihack{oh_h3r3_15_w4LDoo__776c64}**
 
-## Side-by-Side (100 pts)
+## 2. Side-by-Side (100 pts)
 Diberikan file matryoshka.png. Langsung kita binwalk terlebih dahulu di terminal:
 
 ```
@@ -579,7 +579,7 @@ Didapat file zip berisi txt
 
 **flag: agrihack{y0u_c4n_aPP3nd_d4t4_Aft3r_PN6_F00tEr}**
 
-## LatihSkillBerdusta - Round 1 (120 pts)
+## 3. LatihSkillBerdusta - Round 1 (120 pts)
 Diberikan file round1.png.
 
 ![image61](https://user-images.githubusercontent.com/66354919/140285465-9d6e32c1-4fdd-4fd9-9353-aa0ac40b61e4.png)
@@ -601,7 +601,7 @@ b2,rgb,lsb,xy       .. text: "agrihack{Wh1tE_w@5_th3_1MP05t3r__1_1mp05tEr_remain
 
 **Dapat flag: agrihack{Wh1tE_w@5_th3_1MP05t3r__1_1mp05tEr_remaining}**
 
-## HEX MASTERACE - I (150 pts)
+## 4. HEX MASTERACE - I (150 pts)
 Diberikan sebuah file gambar EX MASTERACE.png dan ternyata file tersebut corrupt atau tidak bisa dibuka. Kita cek terlebih dahulu di ghex editor, ternyata header dari data biner tersebut masih bertuliskan .IPB yang seharusnya .PNG, langsung saja kita ganti:
 
 ![image27](https://user-images.githubusercontent.com/66354919/140285675-f2467768-bc46-4bd2-b219-61c04e8b54fd.png)
@@ -616,7 +616,7 @@ Setelah diperbaiki gambar tersebut baru bisa dibuka dan isinya:
 
 **flag: agrihack{h3x_ad4lah_ko3ntji_LINZ_IS_BUCYN}**
 
-## Dark Joke (150 pts)
+## 5. Dark Joke (150 pts)
 
 Diberikan file darkJoke.png. Setelah dibinwalk, tidak terdapat file-file tambahan dalam gambar tersebut. Oke, kita coba rekayasa gambar tersebut di gimp. Setelah di coba berbagai macam kemungkinan kombinasi brightness, akhirnya ketemu juga pada titik:
 
@@ -624,7 +624,7 @@ Diberikan file darkJoke.png. Setelah dibinwalk, tidak terdapat file-file tambaha
 
 **flag: agrihack{RGB_1_is_d4rk_not_dark3st}**
 
-## VN (150 pts)
+## 6. VN (150 pts)
 
 Diberikan sebuah file zip yang isinya voiceNote.wav. Setelah didengar ternyata hanya siraman semangat pagi yang diucapkan seorang wanita.
 
@@ -636,7 +636,7 @@ Setelah dilihat dan direkayasa sedikit pada gimp, maka hasilnya seperti ini:
 
 **flag: agrihack{audio_H1dd3n_1m4g3}**
 
-## HEX MASTERACE - II (180 pts)
+## 7. HEX MASTERACE - II (180 pts)
 
 Diberikan sebuah file EX_2 MASTERACE.png. Ternyata file tersebut corrupt/tidak bisa dibuka. Langsung saja kita cek data binernya di ghex editor:
 
@@ -656,7 +656,7 @@ Hasil gambarnya:
 
 **flag: agrihack{str03rtur_Sud4h_p45t1_LINZ_IS_BUCYN}**
 
-## Sakura SmartTV (180 pts)
+## 8. Sakura SmartTV (180 pts)
 
 Diberikan sebuah file sakuraSmartTV.wav dan setelah didengar, suaranya seremmm bgt cuuuk kaya radio nyari sinyal. Mungkin spectrum suara lagi? Setelah dicek tidak ada apa-apa. Karena suaranya mirip seperti radio, maka saya searching tentang seputar radio.
 Akhirnya saya menemukan SSTV (berdasarkan huruf kapital judul juga).
@@ -668,7 +668,7 @@ Untuk softwarenya sendiri, di ubuntu terdapat QSSTV. Lalu saya play file sakuraS
 
 **flag: agrihack{SlowSc4n_T3leV1si0n}**
 
-## Kabel Hiu (200 pts)
+## 9. Kabel Hiu (200 pts)
 Diberikan sebuah kabelHiu.pcapng. Dilihat dari extensi filenya dan hint dari judul, perlu software WireShark untuk mensolve soal ini. Langsung saja kita run di WireShark. (Disini saya sudah menginstall WireShark sebelumnya).
 
 ![image56](https://user-images.githubusercontent.com/66354919/140286987-aa952b2b-e5ff-41f3-9dd7-12b95934ec11.png)
@@ -684,7 +684,7 @@ Out[2]: 'http_iz_n0t_secur3_anym0r3'
 
 **flag: agrihack{http_iz_n0t_secur3_anym0r3}**
 
-## HEX MASTERACE - III (250 pts)
+## 10. HEX MASTERACE - III (250 pts)
 
 Diberikan sebuah file EX_3.png. Dan filenya juga tidak bisa dibuka alias corrupt. Langsung saja kita cek di ghex editor:
 
@@ -735,7 +735,7 @@ agrihack{USB_K3yStr0k333_Enj0yerz}
 
 flag: agrihack{USB_K3yStr0k333_Enj0yerz}
 
-## HEX MASTERACE - IV (300 pts)
+## 11. HEX MASTERACE - IV (300 pts)
 Diberikan file gambar rusak lagi EX_4 MASTERACE.png. Langsung saja kita perbaiki di ghex editor:
 
 ![image63](https://user-images.githubusercontent.com/66354919/140288280-0eee7fac-3d65-4c43-b7bf-6b20e9d8f8c2.png)
@@ -759,7 +759,7 @@ Setelah diperbaiki semua, kita bisa lihat hasil gambarnya:
  **flag: agrihack{m3t4data_m45tery_KASIAN_AH_LINZ}**
  
  # Reversing
- ## baby-C-0x00 (100 pts)
+ ## 1. baby-C-0x00 (100 pts)
  
 Untuk mengerjakan soal reversing, kita download terlebih dulu IDA PR0. Disini yang saya download IDA PRO versi 6.8, sebelumnya kita harus install wine terlebih dahulu, baru bisa install IDA PRO :)
 
@@ -897,7 +897,7 @@ Here is your flag: agrihack{whoaaa_u_find_me}
 
 **flag: agrihack{whoaaa_u_find_me}**
 
-## C-0x00 (150 pts)
+## 2. C-0x00 (150 pts)
 
 Diberikan file exe 64-bit c-0x00. Kita jalankan saja di IDA PRO, dan generate pseudocode:
 
