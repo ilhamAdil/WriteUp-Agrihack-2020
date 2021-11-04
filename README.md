@@ -673,15 +673,260 @@ Diberikan sebuah kabelHiu.pcapng. Dilihat dari extensi filenya dan hint dari jud
 
 ![image56](https://user-images.githubusercontent.com/66354919/140286987-aa952b2b-e5ff-41f3-9dd7-12b95934ec11.png)
 
+Ternyata telah banyak user yang masuk ke situs tersebut, namun karena disoal yang ditanyakan adalah user friska. Kita cari username yang mirip friska. Ditemukan username “friezka_mo3t” yang paling mirip, dan passwordnya decrypted dalam base64 yakni “aHR0cF9pel9uMHRfc2VjdXIzX2FueW0wcjM=”. Kita decode saja di python:
 
+```
+In [1]: import base64
 
+In [2]: base64.b64decode("aHR0cF9pel9uMHRfc2VjdXIzX2FueW0wcjM=")
+Out[2]: 'http_iz_n0t_secur3_anym0r3'
+```
 
+**flag: agrihack{http_iz_n0t_secur3_anym0r3}**
 
+## HEX MASTERACE - III (250 pts)
 
+Diberikan sebuah file EX_3.png. Dan filenya juga tidak bisa dibuka alias corrupt. Langsung saja kita cek di ghex editor:
 
+![image31](https://user-images.githubusercontent.com/66354919/140287557-1d69bd2d-a0d0-41b9-9772-11c512ee452b.png)
 
+![image23](https://user-images.githubusercontent.com/66354919/140287588-d8cf6885-5077-4a40-8224-df031e352c86.png)
 
+Ternyata ada yang salah pada chunk metadatanya, dimulai dari GAMA yang seharusnya gAMA, dan IDAATx yang seharusnya IDATx. Sehingga kita revisi menjadi seperti ini:
 
+![image20](https://user-images.githubusercontent.com/66354919/140287643-20538599-31f1-4f6b-bb0e-733e1a0ed379.png)
 
+Setelah direvisi, kita buka gambarnya dan hasilnya:
+
+![image52](https://user-images.githubusercontent.com/66354919/140287690-554b3738-b3a0-46fa-8916-7951bed87ce6.png)
+
+**flag : agrihack{m3tad4ta_fri3ndly_LINZ_IS_BUCYN_PAR4HhH}**
+
+KeyLogger (250 pts)
+Diberikan sebuah file keyLogger.pcapng. Karena file tersebut .pcap langsung saja kita buka di wireshark dan hasilnya:
+
+![image25](https://user-images.githubusercontent.com/66354919/140287943-5f24d7f2-8a11-4392-8b60-1c9242f88c84.png)
+
+Wow, penuh dengan protocol USB. Setelah saya searching di google, ini merupakan record dari pengetikan keyboard melalui protokol USB. Saya urut terlebih dahulu list dari source 2.6.1 yang merupakan aksi pengetikkan. Lalu saya tambahkan filter ((usb.transfer_type == 0x01) && (frame.len == 72)) && !(usb.capdata == 00:00:00:00:00:00:00:00)&&!(usb.capdata == 02:00:00:00:00:00:00:00) untuk menghasilkan list yang penting-penting saja, sehingga hasilnya:
+
+![image2](https://user-images.githubusercontent.com/66354919/140288012-8d7315b3-1b7d-4de6-82ac-00229aaac7bb.png)
+
+Untuk mengetahui karakter dari penginputan, dapat dilihat pada Leftover Capture data. Seluruh list tersebut masing-masing berisi leftover data, mulai dari 04 dan seterusnya. 
+
+Untuk mengubah data dari leftover (USAGE ID), maka kita lihat terlebih dulu di tabel HID USAGES USB. 
+
+![image8](https://user-images.githubusercontent.com/66354919/140288036-6f45ae59-b075-42a3-bb35-68280fcc9946.png)
+
+Untuk 04 adalah karakter a, sehingga kita tau ini adalah flag agrihack{..}
+
+![image12](https://user-images.githubusercontent.com/66354919/140288079-2bc62690-3084-4c5d-8289-9974207c995b.png)
+
+Untuk leftover bagian ini, diawali dengan 02. Sesuai dari tabel, jika diawali 02 maka karakter yang digunakan adalah karakter 2nd/ karakter kapital. Lalu saya kumpulkan leftover-leftover dari list tersebut secara manual:
+
+```
+04 0a 15 0c 0b 04 06 0e 2f(2) 18(2) 16(2) 05(2) 2d(2) 0e(2) 20 1c 16(2) 17 15 27 0e 20 20 20 2d(2) 08(2) 11 0d 27 1c 08 15 1d 30(2)
+```
+
+Untuk (2) itu merupakan huruf kapital/2nd karakter dari tabel HID USAGE tables. Lalu saya ubah menjadi character secara manual dengan melihat tabel:
+
+```
+agrihack{USB_K3yStr0k333_Enj0yerz}
+```
+
+flag: agrihack{USB_K3yStr0k333_Enj0yerz}
+
+## HEX MASTERACE - IV (300 pts)
+Diberikan file gambar rusak lagi EX_4 MASTERACE.png. Langsung saja kita perbaiki di ghex editor:
+
+![image63](https://user-images.githubusercontent.com/66354919/140288280-0eee7fac-3d65-4c43-b7bf-6b20e9d8f8c2.png)
+
+Sepertinya, data hex diantara .PNG dan .IHDR kelebihan satu data 00 dan urutannya masih berantakan. Sehingga kita perbaiki menjadi:
+
+![image5](https://user-images.githubusercontent.com/66354919/140288319-f88f0051-dbd9-4892-bd0f-1719283f0c34.png)
+
+Lanjut lagi cek data setelahnya:
+
+![image58](https://user-images.githubusercontent.com/66354919/140288352-5ca9d882-a4f2-472d-81cd-53533204dfe1.png)
+
+Ternyata data chunk sebelum IDATx kelebihan satu hex. Kita hapus saja salah satu datanya sehingga menjadi:
+
+![image46](https://user-images.githubusercontent.com/66354919/140288409-bcc5c2b0-27f2-4066-9478-6b21c7f6aa19.png)
+
+Setelah diperbaiki semua, kita bisa lihat hasil gambarnya:
+
+![image29](https://user-images.githubusercontent.com/66354919/140288431-e334cdfa-7028-49a3-a634-d61c955bf54b.png)
+
+ **flag: agrihack{m3t4data_m45tery_KASIAN_AH_LINZ}**
+ 
+ # Reversing
+ ## baby-C-0x00 (100 pts)
+ 
+Untuk mengerjakan soal reversing, kita download terlebih dulu IDA PR0. Disini yang saya download IDA PRO versi 6.8, sebelumnya kita harus install wine terlebih dahulu, baru bisa install IDA PRO :)
+
+Oke langsung saja kita cek terlebih dahulu tipe file baby-c-0x00.exe nya:
+
+```
+ilham@ilham-Acer:~/Documents/WriteUp$ file baby-c-0x00
+baby-c-0x00: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=f905d23673179d7e192c6a4803b05a7c126ee9fd, not stripped
+```
+
+Karena tipenya 64-bit, kita jalankan reversingnya di IDA PRO 64-bit dan hasil pseudocodenya (autosolve gann):
+
+```
+int __cdecl main(int argc, const char **argv, const char **envp)
+{
+  int result; // eax@3
+  __int64 v4; // rdx@3
+  char s1; // [sp+10h] [bp-30h]@1
+  __int64 v6; // [sp+38h] [bp-8h]@1
+
+  v6 = *MK_FP(__FS__, 40LL);
+  printf("input: ", argv, argv);
+  __isoc99_scanf("%32s", &s1);
+  if ( !strcmp(&s1, "31337") )
+    puts("Congratz!\nHere is your flag: agrihack{yeah_this_is_easier_than_C_0x??_series}");
+  result = 0;
+  v4 = *MK_FP(__FS__, 40LL) ^ v6;
+  return result;
+}
+```
+
+**flag: agrihack{yeah_this_is_easier_than_C_0x??_series}**
+
+## baby-C-0x01 (120 pts)
+Diberikan file exe 64-bit baby-C-0x01.exe, kita lakukan reversing di IDA PRO dan langsung saja generate pseudocodenya:
+
+```
+ v21 = *MK_FP(__FS__, 40LL);
+  printf("input: ", argv, argv);
+  __isoc99_scanf("%32s", &s);
+  if ( strlen(&s) != 16 )
+  {
+    puts("invalid length.");
+    exit(0);
+  }
+  if ( v11 != '_' )
+  {
+    puts("nope.");
+    exit(0);
+  }
+  if ( v14 != 'f' )
+  {
+    puts("nope.");
+    exit(0);
+  }
+  if ( v13 != v11 || v18 != v11 )
+  {
+    puts("nope.");
+    exit(0);
+  }
+  if ( v15 != 'i' )
+  {
+    puts("nope.");
+    exit(0);
+  }
+  if ( v16 != 'n' )
+  {
+    puts("nope.");
+    exit(0);
+  }
+  if ( v17 != 'd' )
+  {
+    puts("nope.");
+    exit(0);
+  }
+  if ( v19 != 'm' )
+  {
+    puts("nope.");
+    exit(0);
+  }
+  if ( v20 != 'e' )
+  {
+    puts("nope.");
+    exit(0);
+  }
+  if ( v6 != 'h' )
+  {
+    puts("nope.");
+    exit(0);
+  }
+  if ( v12 != 'u' )
+  {
+    puts("nope.");
+    exit(0);
+  }
+  if ( v9 != 'a' )
+  {
+    puts("nope.");
+    exit(0);
+  }
+  if ( v8 != 'a' || v10 != v9 )
+  {
+    puts("nope.");
+    exit(0);
+  }
+  if ( s != 'w' )
+  {
+    puts("nope.");
+    exit(0);
+  }
+  if ( v7 != 'o' )
+  {
+    puts("nope.");
+    exit(0);
+  }
+  printf("Congratz!\nHere is your flag: agrihack{%s}\n", &s);
+  result = 0;
+  v4 = *MK_FP(__FS__, 40LL) ^ v21;
+  return result;
+}
+```
+
+Disini saya telah mengganti data pada conditional dari hex menjadi char.
+Dilihat dari codenya kita bisa tahu bahwa input yang harus dimasukkan adalah 16 karakter, dan merupakan data dari s, v6 sampai v20.
+
+Setelah diurutkan, input untuk passwordnya adalah: “whoaaa_u_find_me”.
+Langsung saja kita jalankan file exenya di terminal:
+
+```
+ ilham@ilham-Acer:~/Documents/WriteUp$ ./baby-c-0x01
+input: whoaaa_u_find_me
+Congratz!
+Here is your flag: agrihack{whoaaa_u_find_me}
+```
+
+**flag: agrihack{whoaaa_u_find_me}**
+
+## C-0x00 (150 pts)
+
+Diberikan file exe 64-bit c-0x00. Kita jalankan saja di IDA PRO, dan generate pseudocode:
+
+```
+v7 = *MK_FP(__FS__, 40LL);
+  v5 = 0;
+  printf("input: ", argv, argv);
+  __isoc99_scanf("%32s", s);
+  if ( strlen(s) != 20 )
+  {
+    puts("invalid length.");
+    exit(0);
+  }
+  while ( v5 <= 19 )
+  {
+    if ( 2 * s[v5] != arr[(unsigned __int64)v5] )
+    {
+      puts("nope.");
+      exit(0);
+    }
+    ++v5;
+  }
+  printf("Congratz!\nHere is your flag: agrihack{%s}\n", s);
+  result = 0;
+  v4 = *MK_FP(__FS__, 40LL) ^ v7;
+  return result;
+}
+```
+
+Dari codenya, character dari key berjumlah 20. Hmmm…  sepertinya kunci conditionalnya berada pada array arr, kita cek terlebih dulu isi dari array arr:
 
 
