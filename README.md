@@ -68,6 +68,7 @@ agrihack{Toooooooooo_much_character_is_dangerous_LINZ_IS_HERE}
 
 ## Basic64 (100 pts)
 Diberikan file enc.txt dan dilihat isinya:
+
 ![image22](https://user-images.githubusercontent.com/66354919/140281216-b8237a0a-cfcb-4de1-8c99-9808ea6cd34b.png)
 
 Karena hintnya adalah base64, langsung saja kita decode base64 tersebut
