@@ -64,6 +64,8 @@ agrihack{Toooooooooo_much_character_is_dangerous_LINZ_IS_HERE}
 
 **flag: agrihack{Toooooooooo_much_character_is_dangerous_LINZ_IS_HERE}**
 
+
+
 # Cryptography
 
 ## Basic64 (100 pts)
