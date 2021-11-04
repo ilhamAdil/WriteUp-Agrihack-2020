@@ -142,6 +142,138 @@ Sehingga setelah saya coba decode manual hasil
 ## BabyXOR (120 pts)
 Diberikan file key.txt dan enc.txt. Dilihat dari nama soalnya, cara decodenya kemungkinan menggunakan metode XOR. langsung ae kita buat python scriptnya:
 
+```
+from itertools import cycle
+
+def repeated_xor(string,key):
+	result=""
+	for c, k in zip(string, cycle(key)):
+		result+=chr(ord(c)^ord(k))
+	return result
+	
+ciphertext = open("/home/ilham/Documents/WriteUp/enc.txt").read()
+
+print repeated_xor(ciphertext,"vibonacci")
+```
+
+Dilihat dari file key.txt kita tahu bahwa key untuk mendecode ciphertext dari file enc.txt tersebut adalah “vibonacci”,sehingga setelah kita input key dengan fungsi repeated_xor, dapat flagnya:
+
+```
+agrihack{you've_learn_about_xor_______let's_moving_on}
+
+------------------
+(program exited with code: 0)
+Press return to continue
+```
+**Flag: agrihack{you've_learn_about_xor_______let's_moving_on}**
+
+## Password Cracker (150 pts)
+
+Diberikan sebuah hash md5:
+“0f7c017187ad3c1d50a65015de71958c”
+
+dan servis nc 52.187.65.2 15001 
+
+Setelah saya searching cara mendecode hash md5, ternyata hash md5 tidak dapat direverse secara sistematis/irreversible. Sehingga hal yang paling mungkin untuk mendecode/crack hash md5 adalah dengan metode bruteforce huruf, menebak, atau mencari database md5nya dari internet. Sehingga saya pun mencari database md5nya di https://crackstation.net/ Sehingga, dapatlah hasil cracknya:
+
+![image57](https://user-images.githubusercontent.com/66354919/140282715-b80ad3ad-6de6-4c52-8994-fd32ed8cfc46.png)
+
+Didapat “b33f”. Lalu kita input pada netcat:
+
+```
+ilham@ilham-Acer:~$ nc 52.187.65.2 15001 
+[+] Silahkan login untuk terhubung ke wifi :
+
+
+password : b33f
+[+]Login...
+
+
+	[+] Login Berhasil , anda terhubung.
+
+	Silahkan flag anda, tuan hekel :
+			agrihack{brut3f0rc3333_as_1t5_f1n33______b33f}
+```
+
+**flag: agrihack{brut3f0rc3333_as_1t5_f1n33______b33f}**
+
+## Introduction to Cipher_Series : Matrix (150 pts)
+
+Diberikan sebuah file gambar dengan extensi .jpg, setelah dilihat gambarnya:
+
+![image26](https://user-images.githubusercontent.com/66354919/140282818-98fd9f9a-52f4-4e19-aa62-6a5ae9a9040d.jpg)
+
+Jika dilihat baik-baik, maka karakter-karakter tersebut sudah merupakan karakter dari flagnya, karena terdapat huruf a,g,r,i,h,.. Dst. Lalu saya mencoba untuk menyusun ulang susunan huruf tersebut. Karena hintnya adalah matriks, saya mencoba untuk menyusun hurufnya menjadi matriks. Didapatlah susunannya:
+
+```
+a g r i h
+a c k [ C
+0 l u m n
+4 t _ T r
+4 n s p 0
+5 1 t 1 0
+0 0 N }
+```
+
+**Dapatlah flagnya: agrihack{C0lumn4t_Tr4nsp051t100N}**
+
+## BabyAES : Introduction (175 pts)
+Diberikan file source.py dan enc.txt. Hmmmm… Setelah kita lihat codenya, mungkin kita harus mengeksekusi source code tersebut untuk mendecode file enc.txt.
+
+Namun, setelah dieksekusi, ternyata kita harus menginstall package pycryptodome. Langsung saja kita install packagenya:
+
+```
+ilham@ilham-Acer:~$ pip install pycryptodome
+
+```
+Setelah diinstal, kita decode enc.txt di source code tersebut:
+
+```
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+import hashlib
+import os
+
+FLAG = open("enc.txt").read()
+KEY = "ajari_aku_ngehek"
+
+aes = AES.new(KEY, AES.MODE_ECB)
+cipher = aes.encrypt(pad(FLAG,16))
+
+print(cipher)
+```
+Keknya masih ada yang salah sintaksnya, karena yang diperlukan adalah plaintext, kita ganti terlebih dahulu sintaks aes.encrypt() menjadi aes.decrypt(). Sehingga menjadi:
+
+```
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+import hashlib
+import os
+
+FLAG = open("enc.txt").read()
+KEY = "ajari_aku_ngehek"
+
+aes = AES.new(KEY, AES.MODE_ECB)
+cipher = aes.decrypt(pad(FLAG,16))
+
+print(cipher)
+```
+
+Kita execute:
+
+```
+agrihack{51mpl3_ECB_MODE_34b6a5}��;�,	����r�
+
+
+------------------
+(program exited with code: 0)
+Press return to continue
+```
+**flag: agrihack{51mpl3_ECB_MODE_34b6a5}**
+
+## Password Cracker 2 (175 pts)
+
+Lagi-lagi hash md5 yaitu “535fc078a3a273070809bfdbef6018bf” dan servis nc 52.187.65.2 15002. Langsung saja kita crack md5 di database online di https://crackstation.net/
 
 
 
