@@ -929,4 +929,459 @@ v7 = *MK_FP(__FS__, 40LL);
 
 Dari codenya, character dari key berjumlah 20. Hmmm…  sepertinya kunci conditionalnya berada pada array arr, kita cek terlebih dulu isi dari array arr:
 
+```
+.data:0000000000201020 arr             dd 238, 202, 216, 198, 222, 218, 202, 190, 232, 222, 190
+
+.data:0000000000201020                                         ; DATA XREF: main+90o
+
+.data:0000000000201020                 dd 228, 202, 236, 202, 228, 230, 210, 220, 206
+```
+Karena pada conditional 2 * (input) harus = arr[i], maka (input) = arr[i] * 1/2 (atau setengah dari value setiap isi array). Sehingga inputnya dalam decimal akan menjadi seperti ini:
+
+```
+119 101 108 99 111 109 101 95 116 111 95 114 101 118 101 114 115 105 110 103
+```
+
+Kita convert saja decimal menjadi ascii di website https://www.rapidtables.com/ , didapat hasilnya:
+
+![image44](https://user-images.githubusercontent.com/66354919/140293735-f25baee5-e2ab-4f2b-87a4-bc40160ccb65.png)
+
+Jalankan file exenya:
+
+```
+ilham@ilham-Acer:~/Documents/WriteUp$ ./c-0x00
+input: welcome_to_reversing
+Congratz!
+Here is your flag: agrihack{welcome_to_reversing}
+```
+
+**flag: agrihack{welcome_to_reversing}**
+
+## Python-0x00 (150 pts)
+Diberikan sebuah file py-0x00.pyc. Setelah saya membaca artikel di http://net-informations.com/python/iq/pyc.htm, file pyc secara singkat adalah file executable yang telah dicompile tetapi dalam bahasa python. Untuk menguncompile/mereverse file tersebut, diperluka tools pyc uncompiler, disini saya menggunakan tools uncompyle6 yang installasinya dari htps://pypi.org/project/uncompyle6/#files.
+
+Setelah itu kita langsung uncompile saja file tersebut dan melihat isi pseudocodenya:
+
+```
+ilham@ilham-Acer:~/Documents/WriteUp$ uncompyle6 py-0x00.pyc
+# uncompyle6 version 3.7.4
+# Python bytecode 3.8 (3413)
+# Decompiled from: Python 2.7.17 (default, Sep 30 2020, 13:38:04) 
+# [GCC 7.5.0]
+# Warning: this version of Python has problems handling the Python 3 "byte" type in constants properly.
+
+# Embedded file name: py-0x1.py
+# Compiled at: 2020-10-25 03:05:52
+# Size of source mod 2**32: 575 bytes
+buf = input('input: ')
+bol = True
+if len(buf) != 28:
+    print('invalid length.')
+    exit(0)
+else:
+    if buf[0] != 'd':
+        bol = False
+    else:
+        if buf[1:3][::-1] != 'ce':
+            bol = False
+        else:
+            if buf[3:6] != '0mp':
+                bol = False
+            else:
+                if buf[6] != 'i':
+                    bol = False
+                else:
+                    if buf[7:12] != 'le_py':
+                        bol = False
+                    else:
+                        if ord(buf[12]) + 3 != ord('f'):
+                            bol = False
+                        else:
+                            if buf[13:19][::-1] != '0ctyb_':
+                                bol = False
+                            else:
+                                if buf[19:28] != 'de__9adj3':
+                                    bol = False
+                                elif bol:
+                                    print('Congratz!\nHere is your flag: agrihack{' + buf + '}')
+                                else:
+                                    print('nope.')
+# okay decompiling py-0x00.pyc
+```
+
+Dapat dilihat pada setiap conditionalnya, karakter berjumlah 28 dan kita harus mengurutkan string karakter tersebut untuk mendapatkan flag, sehingga setelah diurutkan akan menjadi seperti ini: 
+“Dec0mpile_pyc_bytc0de__9adj3”
+
+Lalu dari soal sebelum-sebelumnya, biasanya hasil dari kunci tersebut merupakan flagnya, jadi tidak saya jalankan codenya. Ternyata benar, karena itu, flagnya adalah:
+
+**flag: agrihack{Dec0mpile_pyc_bytc0de__9adj3}**
+
+## C-0x01 (200 pts)
+
+Diberikan file executable 64-bit c-0x01. Dan setelah digenerate pseudocode di IDA PRO, hasil source codenya seperti ini:
+
+```
+v7 = *MK_FP(__FS__, 40LL);
+  printf("input: ", argv, argv);
+  __isoc99_scanf("%32s", s);
+  if ( strlen(s) != 22 )
+  {
+    puts("invalid length.");
+    exit(0);
+  }
+  for ( i = 0; i <= 21; ++i )
+  {
+    if ( i & 1 )
+    {
+      if ( s[i] != arr2[i / 2] )
+      {
+        puts("nope.");
+        exit(0);
+      }
+    }
+    else if ( s[i] != arr1[i / 2] )
+    {
+      puts("nope.");
+      exit(0);
+    }
+  }
+  printf("Congratz!\nHere is your flag: agrihack{%s}\n", s);
+  result = 0;
+  v4 = *MK_FP(__FS__, 40LL) ^ v7;
+  return result;
+}
+```
+
+Dilihat dari codenya, keynya sepanjang 22 karakter. Lalu jika dilihat lagi conditonalnya, maka code tersebut memiliki filter untuk karakter dengan index ganjil dan karakter dengan index genap:
+
+```
+ for ( i = 0; i <= 21; ++i )
+  {
+    if ( i & 1 ) //Jika karakter berindex ganjil
+    {
+      if ( s[i] != arr2[i / 2] )
+      {
+        puts("nope.");
+        exit(0);
+      }
+    }
+    else if ( s[i] != arr1[i / 2] ) //jika karakter berindex genap
+    {
+      puts("nope.");
+      exit(0);
+    }
+  } 
+```
+
+Lalu kita lihat isi dari arr2 dan arr1
+
+```
+  data:0000000000201020 arr1            dd 110, 99, 95, 110, 108, 2 dup(115), 107, 119, 108, 107
+
+.data:0000000000201020                                         ; DATA XREF: main+A8o
+
+.data:0000000000201020                 dd 5 dup(0)
+
+.data:0000000000201060                 public arr2
+
+.data:0000000000201060 ; _DWORD arr2[11]
+
+.data:0000000000201060 arr2            dd 105, 51, 2 dup(97), 121, 105, 95, 48, 97, 115, 49
+```
+
+Dilihat isi dari masing-masing array setelah saya ubah ke decimal, untuk value a.dup(), setelah saya searching di google ternyata a.dup() menduplikat isi array sebanyak a kali. Sehingga isi arraynya menjadi seperti ini:
+
+```
+arr1: 110, 99, 95, 110, 108, 115, 115, 107, 119, 108, 107  //index genap
+
+arr2: 105, 51, 97, 97, 121, 105, 95, 48, 97, 115, 49 //index ganjil
+```
+
+Sehingga setelah diurutkan selang-seling (genap-ganjil) hasilnya menjadi seperti ini:
+
+```
+Key: 110, 105, 99, 51, 95, 97, 110, 97, 108, 121, 115, 105, 115, 95, 107, 48, 119, 97, 108, 115, 107, 49
+```
+
+Jika diubah ke ASCII dari decimal tersebut, terbentuk:
+
+![image43](https://user-images.githubusercontent.com/66354919/140294095-c83dcf73-cb28-4620-ba83-e209e66e1036.png)
+
+Karena sudah ketemu, kita jalankan file exenya:
+
+```
+ilham@ilham-Acer:~/Documents/WriteUp$ ./c-0x01
+input: nic3_analysis_k0walsk1
+Congratz!
+Here is your flag: agrihack{nic3_analysis_k0walsk1}
+```
+
+**flag : agrihack{nic3_analysis_k0walsk1}**
+
+## C-0x02 (250 pts)
+Diberikan sebuah servis nc 52.187.65.2 17010 dan file exe 64-bit c-0x02. Langsung saja kita generate pseudocodenya di IDA PRO:
+
+```
+v9 = *MK_FP(__FS__, 40LL);
+  setup(*(_QWORD *)&argc, argv, envp);
+  printf("password: ", argv);
+  __isoc99_scanf("%32s", s);
+  printf("key: ");
+  __isoc99_scanf("%d", &v5);
+  if ( strlen(s) != 23 )
+  {
+    puts("wrong password!");
+    exit(0);
+  }
+  if ( s[0] * v5 != 9559 || s[0] > v5 )
+  {
+    puts("wrong password!");
+    exit(0);
+  }
+  for ( i = 0; i <= 22; ++i )
+  {
+    v7 = s[i] ^ v5++;
+    if ( v7 != arr[i] )
+    {
+      puts("wrong password!");
+      exit(0);
+    }
+  }
+  puts("Welcome!\n\n");
+  sleep(1u);
+  system("/bin/G64180024sh");
+  result = 0;
+  v4 = *MK_FP(__FS__, 40LL) ^ v9;
+  return result;
+}
+```
+
+Dari codenya kita tahu bahwa panjang karakter dari key adalah 23, lalu kita lihat lebih lanjut ke fungsi conditionalnya:
+
+```
+if ( s[0] * v5 != 9559 || s[0] > v5 )
+```
+
+Karena 9559 sudah bentuk decimal, maka untuk menentukan s[0] dan v5 adalah dengan mengetahui faktor dari 9559. Faktor yang paling mungkin agar menghasilkan karakter ASCII yang printable adalah 121 dan 79 (121*79 = 9559). Karena s[0] harus < v5, maka:
+
+S[0] 	= 79
+v5	= 121
+
+Setelah itu kita cek lagi conditional selanjutnya:
+
+```
+for ( i = 0; i <= 22; ++i )
+  {
+    v7 = s[i] ^ v5++;
+    if ( v7 != arr[i] )
+    {
+      puts("wrong password!");
+      exit(0);
+    }
+  }
+```
+
+Ternyata s[i] di xor dengan v5 incremental, Sehingga untuk menentukan isi setiap s[i], dengan cara:
+
+v7 		= s[i] ^ v5++    // karena v7 harus == arr[i], maka:
+arr[i]	= s[i] ^ v5++	 // lalu, karena di xor, tinggal dibalik:
+s[i]		= arr[i] ^ v5++
+Selanjutnya kita cek terlebih dulu isi array arr
+
+```
+.data:0000000000201020 arr             dd 54, 55, 60, 35, 9, 2 dup(22), 243, 222, 235, 240, 219
+
+.data:0000000000201020                                         ; DATA XREF: main+10Eo
+
+.data:0000000000201020                 dd 240, 244, 216, 248, 232, 191, 190, 251, 189, 252, 235
+```
+
+ada 2dup(22), kita tinggal menduplikat decimal 22 sebanyak 2 kali.
+
+tinggal kita tentukan nilai dari s[i], yaitu arr[i] ^ v5++, lalu hasilnya diubah ke char. Disini saya membuat source code di c++:
+
+```
+#include <cstdio>
+
+int main(){
+	int data[23]={54,55,60,35,9,22,22,243,222,235,240,219,240,244,216,248,232,191,190,251,189,252,235};
+
+	int s[23];
+	int x=121;
+	for(int i=0;i<=22;i++){
+		s[i]=data[i]^x++;
+	}
+	for(int i=0;i<=22;i++){
+		printf("%c",s[i]);
+	}
+return 0;
+}
+```
+
+Hasil outputnya:
+
+```
+OMG_this_is_ur_pa55w0rd
+
+------------------
+(program exited with code: 0)
+Press return to continue
+```
+
+Sekarang kita input di nc dengan password: OMG_this_is_ur_pa55w0rd
+Dan key(v5) hasil dari faktor 9559 tadi yaitu: 121
+
+```
+ilham@ilham-Acer:~/Documents/Reverse$ nc 52.187.65.2 17010
+password: OMG_this_is_ur_pa55w0rd
+key: 121
+Welcome!
+
+
+- G64180024 Shell -
+
+>> 
+```
+
+kosong?? tentu tidak, kita bisa cek list dari file yang ada di shell server dengan command ls.
+
+```
+- G64180024 Shell -
+
+>> ls
+chall
+flag.txt
+run_challenge.sh
+```
+
+Wah sepertinya ketemu file flagnya, langsung kita cat saja: 
+
+```
+>> cat flag.txt
+agrihack{camellia:"makasih_udah_bukain_komputer_aku<3"}
+```
+
+**flag: agrihack{camellia:"makasih_udah_bukain_komputer_aku<3"}**
+
+# Web
+## 1. Inception (100 pts)
+
+Diberikan sebuah website http://52.187.65.2:16000/. Karena ini autosolve kita langsung inspect element aja dengan shortkey f12 :)
+
+![image37](https://user-images.githubusercontent.com/66354919/140294606-93cc9a87-708b-485e-8cd1-f4d99ab9462d.png)
+
+**flag: agrihack{u_are_an_inspector!_LINZ_IS_HERE}**
+
+## 2. X-Header (100 pts)
+
+Diberikan sebuah website http://52.187.65.2:16007/, karena hintnya adalah header, maka kita cek header dari websitenya dengan inspect element terlebih dahulu:
+
+![image16](https://user-images.githubusercontent.com/66354919/140294706-9a350d19-e641-492c-9b39-ad608fc3b788.png)
+
+**flag: agrihack{x-header_header_tersembunyi_LINZ_IS_HERE}**
+
+## 3. Bipbip (125 pts)
+
+Diberikan site http://52.187.65.2:16001/, dan isinya cuma video seorang hacker beserta tulisan biiiiiiippppppppppppp. Karena setiap website rata-rata memiliki robots exclusion standard, maka kita cek saja pada route /robots.txt:
+
+![image34](https://user-images.githubusercontent.com/66354919/140296582-7cbdc9f2-8d72-4228-bb0e-56ee082e70e6.png)
+
+Ternyata disini ditemukan route baru yaitu /linz-is-here, langsung saja kita kunjungi:
+
+![image21](https://user-images.githubusercontent.com/66354919/140296626-2c869be1-3d30-491e-a5a7-196fb32c2e94.png)
+
+**flag: agrihack{robootssssssss_a_little_information_linz_is_here}**
+
+## 4. Chef (125 pts)
+
+Diberikan web http://52.187.65.2:16003/, dan setelah dicek inspect elemen dan direload ulang, yang muncul hanyalah:
+
+![image41](https://user-images.githubusercontent.com/66354919/140296702-d6dc8186-bc12-490d-b65c-4f3770016a3f.png)
+
+Hmmm… mungkin kali ini adalah faktor dari cookiesnya, kita cek saja cookiesnya:
+
+![image48](https://user-images.githubusercontent.com/66354919/140296759-a636fb87-91f1-459a-98f3-bd16b9bd8799.png)
+
+Dilihat dari kata-kata di webnya, saat mereload wesbite yang muncul adalah ur not chef admin. Mungkin disini user yang terdaftar dalam cookies adalah sebagai juna. Karena itu, kita ganti valuenya menjadi “admin” terlebih dulu.
+
+![image40](https://user-images.githubusercontent.com/66354919/140296781-126df0a3-11e2-407e-ba81-08b5e3806b70.png)
+
+Setelah diganti ternyata saat direload keluar flagnya :)
+
+**flag: agrihack{chef_cookie_cook_xdxdxd_LINZ_IS_HERE}**
+
+## 5. Kingsman (150 pts)
+
+Diberikan sebuah situs http://52.187.65.2:16002/ dan isinya:
+
+![image9](https://user-images.githubusercontent.com/66354919/140296886-ce126298-627d-49c1-949a-a1ccc021f478.png)
+
+Setelah di inspect elemen, ternyata tidak ada apa-apa pada htmlnya dan cookies. Saya coba klik link yang berwarna biru, hasilnya:
+
+![image47](https://user-images.githubusercontent.com/66354919/140296912-18359f22-6fe6-444f-80f8-98f8bfa1de39.png)
+
+Hmmm… mungkin ada value yang harus diganti. Lalu saya cek path apa saja yang ada di website ini dengan cek route /robots.txt.
+
+![image17](https://user-images.githubusercontent.com/66354919/140296950-7510f665-ddf9-445f-ac8b-a49e3f86d836.png)
+
+Wah, ternyata link tadi yaitu /agent-exam, harus memiliki User-agent dengan value: Kingsman Agent 0x05. Langsung saja kita ganti user-agent yang ada di browser menjadi value tersebut, dengan f12 terlebih dulu.
+
+![image42](https://user-images.githubusercontent.com/66354919/140296990-b5d6476e-11e6-4a96-9173-5c1e11283c19.png)
+
+Setelah kita ganti, kita coba kunjungi link biru tadi
+
+![image4](https://user-images.githubusercontent.com/66354919/140297025-bfdfeeea-875f-4a3b-b230-44f04eed8042.png)
+
+**Flag: agrihack{ur_now_our_agent0x05_linz_is_here}**
+
+## 6. Redirect (150 pts)
+
+Diberikan sebuah situs http://52.187.65.2:16004/, dan isinya:
+
+![image13](https://user-images.githubusercontent.com/66354919/140297102-1a839d8a-7ab4-4928-b618-b1fdad37e935.png)
+
+Setelah di inspect elemen dan cek cookies ternyata tidak ada apa-apa. Lalu saya curiga dengan situs tersebut karena pada saat awal berkunjung, kita sudah masuk ke suatu route /swipers. Mungkin saja, route atau path tersebut harus dihilangkan.
+
+Lalu saja coba kunjungi tanpa redirect ke /swipers dengan menggunakan curl:
+
+```
+ilham@ilham-Acer:~$ curl http://52.187.65.2:16004/
+<html>
+	<head><title>Redirecting...</title></head>
+	<h1>Redirecting...</h1>
+	<body>
+		<p>agrihack{R3d1reCt_N0__r3dIrEcT!ng___x999699}
+	</body>
+```
+
+Ternyata ketemu flagnya
+**flag : agrihack{R3d1reCt_N0__r3dIrEcT!ng___x999699}**
+
+## 7. LSI (200 pts)
+Diberikan situs http://52.187.65.2:16005/, dan dicek isinya:
+
+![image1](https://user-images.githubusercontent.com/66354919/140297219-f5f680db-db4c-4b58-9b35-9cb18a8e5b57.png)
+
+Setelah melihat-lihat di link hrefnya, pada secret file terdapat clue bahwa flagnya terdapat di flag.php. Lalu kita cek http://52.187.65.2:16005/list.php?page=flag.php, dan ternyata isinya tidak ada apa-apa. Mungkin dapat kita ambil flagnya dengan PHP wrapper yaitu php://filter, langsung saja kita coba:
+
+![image45](https://user-images.githubusercontent.com/66354919/140297295-6e1acfef-f01b-4279-87c2-263dcbaa57da.png)
+
+Dan ternyata kita dapat suatu encoded text base64:
+
+![image51](https://user-images.githubusercontent.com/66354919/140297338-38f0d08e-2006-40d7-b781-fb533862b889.png)
+
+Kita decode saja di terminal, dan mengubahnya kedalam format php/html, dengan cara:
+
+```
+ilham@ilham-Acer:~$ echo "PD9waHAKCS8vYWdyaWhhY2t7T09QU0lFRUUhISFfS2V0YXVhbmRlaGZpbGVyYWhhc2lhbnlhX0xJTlpfSVNfSEVSRX0KPz4=" | base64 -d
+<?php
+	//agrihack{OOPSIEEE!!!_Ketauandehfilerahasianya_LINZ_IS_HERE}
+```
+
+**flag: agrihack{OOPSIEEE!!!_Ketauandehfilerahasianya_LINZ_IS_HERE}**
+
+
+
+
+
 
