@@ -66,5 +66,21 @@ agrihack{Toooooooooo_much_character_is_dangerous_LINZ_IS_HERE}
 
 ## Cryptography
 
-## Basic64 (100 Pts)
+## Basic64 (100 pts)
 Diberikan file enc.txt dan dilihat isinya:
+![image22](https://user-images.githubusercontent.com/66354919/140281216-b8237a0a-cfcb-4de1-8c99-9808ea6cd34b.png)
+Karena hintnya adalah base64, langsung saja kita decode base64 tersebut
+```
+In [4]: import base64
+
+In [5]: base64.b64decode("YWdyaWhhY2t7YmFzaWNfdG9fa25vd19iYXNlNjR9")
+Out[5]: 'agrihack{basic_to_know_base64}'
+```
+sehingga flagnya: agrihack{basic_to_know_base64} 
+
+## Introduction to Cipher_Series : ROMAN (120 pts)
+Diberikan file caesar.png:
+![image60](https://user-images.githubusercontent.com/66354919/140281378-d4b26a0b-1721-4c08-bfa6-8ab725a9da89.png)
+
+
+
