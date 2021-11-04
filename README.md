@@ -671,6 +671,7 @@ Untuk softwarenya sendiri, di ubuntu terdapat QSSTV. Lalu saya play file sakuraS
 ## Kabel Hiu (200 pts)
 Diberikan sebuah kabelHiu.pcapng. Dilihat dari extensi filenya dan hint dari judul, perlu software WireShark untuk mensolve soal ini. Langsung saja kita run di WireShark. (Disini saya sudah menginstall WireShark sebelumnya).
 
+![image56](https://user-images.githubusercontent.com/66354919/140286987-aa952b2b-e5ff-41f3-9dd7-12b95934ec11.png)
 
 
 
